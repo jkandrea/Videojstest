@@ -155,7 +155,6 @@ function convertVideoToGIF() {
     tmp_spinner.role = 'status';
     const tmp_span = document.createElement('span');
     tmp_span.classList.add('sr-only');
-    tmp_span.innerText = 'Loading...';
     tmp_spinner.appendChild(tmp_span);
     tmp_container.appendChild(tmp_spinner);
     cutted_container.appendChild(tmp_container);
@@ -170,7 +169,7 @@ function convertVideoToGIF() {
     encoder.finish();
     const gif_url = 'data:image/gif;base64,' + encode64(encoder.stream().getData());
     const pimage = document.createElement("img");
-    // pimage.src = gif_url;
+    pimage.src = gif_url;
     cutted_container.appendChild(pimage);
     // encoder.download("animation.gif");
 }
