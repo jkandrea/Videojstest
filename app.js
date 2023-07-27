@@ -13,6 +13,7 @@ const timelength = document.querySelector('#timelength');
 const inputFrameRate = document.querySelector('#inputFrameRate');
 
 const buttonCut = document.querySelector('#button-cut');
+const cutted_container = document.querySelector("#cutted");
 
 let files = [];
 let duration = 100;
@@ -147,6 +148,18 @@ function convertVideoToGIF() {
     canvas.width = vwidth;
     canvas.height = vheight;
 
+    const tmp_container = document.createElement('div');
+    tmp_container.classList.add('container-sm');
+    const tmp_spinner = document.createElement('div');
+    tmp_spinner.classList.add('spinner-border');
+    tmp_spinner.role = 'status';
+    const tmp_span = document.createElement('span');
+    tmp_span.classList.add('sr-only');
+    tmp_span.innerText = 'Loading...';
+    tmp_spinner.appendChild(tmp_span);
+    tmp_container.appendChild(tmp_spinner);
+    cutted_container.appendChild(tmp_container);
+    
     let i = 0;
     encoder.start();
     for (i = fromtime; i < totime; i = i + frameInterval) {
@@ -156,11 +169,9 @@ function convertVideoToGIF() {
     }
     encoder.finish();
     const gif_url = 'data:image/gif;base64,' + encode64(encoder.stream().getData());
-    const cutted = document.querySelector("#cutted");
     const pimage = document.createElement("img");
-    pimage.classList.add("img-thumbnail");
     // pimage.src = gif_url;
-    cutted.appendChild(pimage);
+    cutted_container.appendChild(pimage);
     // encoder.download("animation.gif");
 }
 
