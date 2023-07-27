@@ -170,7 +170,7 @@ function convertVideoToGIF() {
     const gif_url = 'data:image/gif;base64,' + encode64(encoder.stream().getData());
     const pimage = document.createElement("img");
     pimage.src = gif_url;
-    cutted_container.appendChild(pimage);
+    tmp_container.appendChild(pimage);
     // encoder.download("animation.gif");
 }
 
