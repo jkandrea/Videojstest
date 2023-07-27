@@ -166,10 +166,15 @@ function convertVideoToGIF() {
         ctx.drawImage(preview, 0, 0, vwidth, vheight);
         encoder.addFrame(ctx);
     }
+    GIFEncodingStart(encoder, tmp_container, tmp_spinner);
+}
+
+async function GIFEncodingStart(encoder, tmp_container, tmp_spinner){
     encoder.finish();
     const gif_url = 'data:image/gif;base64,' + encode64(encoder.stream().getData());
     const pimage = document.createElement("img");
     pimage.src = gif_url;
+    tmp_container.removeChild(tmp_spinner);
     tmp_container.appendChild(pimage);
     // encoder.download("animation.gif");
 }
