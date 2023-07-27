@@ -159,7 +159,7 @@ function convertVideoToGIF() {
     const cutted = document.querySelector("#cutted");
     const pimage = document.createElement("img");
     pimage.classList.add("img-thumbnail");
-    pimage.src = gif_url;
+    // pimage.src = gif_url;
     cutted.appendChild(pimage);
     // encoder.download("animation.gif");
 }
