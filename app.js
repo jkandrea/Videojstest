@@ -19,6 +19,7 @@ let files = [];
 let duration = 100;
 
 let fromtime, totime;
+let num_of_sample = 0;
 
 function initStatus() {
     fromtime = 0;
@@ -106,14 +107,14 @@ function moveRange(event) {
     pbAfter.style.width = ((duration - totime) / duration) * 100 + "%";
 
     preview.currentTime = fromtime;
-    preview.play()
+    // preview.play()
 }
 
 function videoPlaying(event) {
     if (preview.currentTime >= totime) {
-        preview.pause();
+        // preview.pause();
         preview.currentTime = fromtime;
-        // preview.play();
+        preview.play();
     }
 }
 
@@ -130,54 +131,72 @@ function setInputTime(event) {
     moveRange();
 }
 
-function convertVideoToGIF() {
+function createGIF() {
+    alert("변환에는 시간이 어느 정도 소요될 수 있습니다.");
+
+    const tmp_card = document.createElement('div');
+    tmp_card.id = `sample_${num_of_sample}`;
+    tmp_card.classList.add('card');
+    tmp_card.style.width = "18rem";
+    const pimage = document.createElement("img");
+    pimage.classList.add('card-img-top');
+    pimage.alt = "loading...";
+    tmp_card.appendChild(pimage);
+    cutted_container.appendChild(tmp_card);
+    const tmp_card_body = document.createElement('div');
+    tmp_card_body.classList.add('card-body');
+    tmp_card.appendChild(tmp_card_body);
+    const downbtn = document.createElement("a");
+    downbtn.classList.add('btn');
+    downbtn.classList.add('btn-primary');
+    downbtn.innerText = "다운로드";
+    tmp_card_body.appendChild(downbtn);
+    const prevbtn = document.createElement("a");
+
+
     const vwidth = preview.videoWidth;
     const vheight = preview.videoHeight;
     const vfps = inputFrameRate.value;
 
-    let encoder = new GIFEncoder();
-    encoder.setRepeat(0);
-    encoder.setDelay(1000 / vfps);
-
     const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
-    const frameCount = Math.floor(duration * vfps);
+    // const frameCount = Math.floor(duration * vfps);
     const frameInterval = 1 / vfps;
 
     canvas.width = vwidth;
     canvas.height = vheight;
 
-    const tmp_container = document.createElement('div');
-    tmp_container.classList.add('container-sm');
-    const tmp_spinner = document.createElement('div');
-    tmp_spinner.classList.add('spinner-border');
-    tmp_spinner.role = 'status';
-    const tmp_span = document.createElement('span');
-    tmp_span.classList.add('sr-only');
-    tmp_spinner.appendChild(tmp_span);
-    tmp_container.appendChild(tmp_spinner);
-    cutted_container.appendChild(tmp_container);
+    let encoder = new GIFEncoder();
+    encoder.setRepeat(0);
+    encoder.setDelay(1000 / vfps);
     
-    let i = 0;
     encoder.start();
+
+
+    getGIFFrames(ctx, encoder, vwidth, vheight, frameInterval);
+
+    encoder.finish();
+    const gif_url = 'data:image/gif;base64,' + encode64(encoder.stream().getData());
+    pimage.src = gif_url;
+    downbtn.href = gif_url;
+    downbtn.download = 'EzGIF.gif';
+
+    
+    // tmp_card.appendChild(pimage);
+}
+
+function getGIFFrames(ctx,encoder,vwidth,vheight,frameInterval) {
+    let i = 0;
+    preview.currentTime = fromtime;
     for (i = fromtime; i < totime; i = i + frameInterval) {
-        preview.currentTime = fromtime;
+        console.log(i);
+        if(i > totime) break;
+        preview.currentTime = i;
         ctx.drawImage(preview, 0, 0, vwidth, vheight);
         encoder.addFrame(ctx);
     }
-    GIFEncodingStart(encoder, tmp_container, tmp_spinner).then(() => {
-        tmp_container.removeChild(tmp_spinner);
-        tmp_container.appendChild(pimage);
-        // encoder.download("animation.gif");
-    });
-}
-
-async function GIFEncodingStart(encoder, tmp_container, tmp_spinner){
-    encoder.finish();
-    const gif_url = 'data:image/gif;base64,' + encode64(encoder.stream().getData());
-    const pimage = document.createElement("img");
-    pimage.src = gif_url;
+    // preview.play();
 }
 
 folderselecter.addEventListener("click", selectFolder);
@@ -186,8 +205,15 @@ toSlider.addEventListener("input", moveRange);
 preview.addEventListener("loadeddata", FildLoaded);
 preview.addEventListener("timeupdate", videoPlaying);
 preview.addEventListener("ended", videoPlaying);
+preview.addEventListener("click", function () {
+    if (preview.paused) {
+        preview.play();
+    } else {
+        preview.pause();
+    }
+});
 
 inputstarttime.addEventListener("change", setInputTime);
 inputendtime.addEventListener("change", setInputTime);
 
-buttonCut.addEventListener("click", convertVideoToGIF);
+buttonCut.addEventListener("click", createGIF);
