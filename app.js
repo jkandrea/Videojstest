@@ -34,11 +34,10 @@ let frameInterval;
 
 let captime = 0;
 
-const canvas = document.createElement("canvas");
-const ctx = canvas.getContext("2d", { willReadFrequently: true });
+let canvas;
+let ctx;
 
-const encoder = new GIFEncoder();
-encoder.setRepeat(0);
+let encoder;
 
 function setProgressBar(){
     const pbBefore = document.querySelector('#pbBefore');
@@ -53,7 +52,6 @@ function setProgressBar(){
 function fpsChanged(event){
     vfps = inputFrameRate.value;
     frameInterval = 1 / vfps;
-    encoder.setDelay(1000 / vfps);
 }
 
 function initStatus() {
@@ -76,13 +74,9 @@ function initStatus() {
     vheight = preview.videoHeight;
     vfps = inputFrameRate.value;
     
-    canvas.width = vwidth;
-    canvas.height = vheight;
-    
 
     // const frameCount = Math.floor(duration * vfps);
     frameInterval = 1 / vfps;
-    encoder.setDelay(1000 / vfps);
 
     captime = 0;
 
@@ -214,6 +208,17 @@ function createGIF() {
     downbtn.innerText = "다운로드";
     tmp_card_body.appendChild(downbtn);
 
+    canvas = document.createElement("canvas");
+    
+    canvas.width = vwidth;
+    canvas.height = vheight;
+
+    ctx = canvas.getContext("2d", { willReadFrequently: true });
+    
+    encoder = new GIFEncoder();
+    encoder.setRepeat(0);
+    encoder.setDelay(1000 / vfps);
+    
     fromSlider.disabled = true;
     toSlider.disabled = true;
     inputstarttime.disabled = true;
