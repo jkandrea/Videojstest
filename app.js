@@ -11,6 +11,7 @@ const inputstarttime = document.querySelector('#inputstarttime');
 const inputendtime = document.querySelector('#inputendtime');
 const timelength = document.querySelector('#timelength');
 const inputFrameRate = document.querySelector('#inputFrameRate');
+const inputResize = document.querySelector('#inputResize');
 
 const buttonCut = document.querySelector('#button-cut');
 const cutted_container = document.querySelector("#cutted");
@@ -173,8 +174,9 @@ function videoPlaying(event) {
             inputstarttime.disabled = false;
             inputendtime.disabled = false;
             inputFrameRate.disabled = false;
+            inputResize.disabled = false;
             buttonCut.disabled = false;
-            
+
         }
         preview.currentTime = fromtime;
         preview.play();
@@ -183,6 +185,7 @@ function videoPlaying(event) {
         if(preview.currentTime >= captime){
             ctx.drawImage(preview, 0, 0, vwidth, vheight);
             encoder.addFrame(ctx);
+            // encoder.addFrame(ctx.scale(inputResize.value/100, inputResize.value/100));
             console.log(preview.currentTime);
             captime += frameInterval;
         }
@@ -216,6 +219,7 @@ function createGIF() {
     inputstarttime.disabled = true;
     inputendtime.disabled = true;
     inputFrameRate.disabled = true;
+    inputResize.disabled = true;
     buttonCut.disabled = true;
 
     onRecording = true;
@@ -243,5 +247,6 @@ inputstarttime.addEventListener("change", setInputTime);
 inputendtime.addEventListener("change", setInputTime);
 
 inputFrameRate.addEventListener("change", fpsChanged);
+
 
 buttonCut.addEventListener("click", createGIF);
