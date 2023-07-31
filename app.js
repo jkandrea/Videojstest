@@ -167,6 +167,14 @@ function videoPlaying(event) {
             pimage.src = gif_url;
             downbtn.href = gif_url;
             downbtn.download = 'EzGIF.gif';
+
+            fromSlider.disabled = false;
+            toSlider.disabled = false;
+            inputstarttime.disabled = false;
+            inputendtime.disabled = false;
+            inputFrameRate.disabled = false;
+            buttonCut.disabled = false;
+            
         }
         preview.currentTime = fromtime;
         preview.play();
@@ -202,6 +210,13 @@ function createGIF() {
     downbtn.classList.add('btn-primary');
     downbtn.innerText = "다운로드";
     tmp_card_body.appendChild(downbtn);
+
+    fromSlider.disabled = true;
+    toSlider.disabled = true;
+    inputstarttime.disabled = true;
+    inputendtime.disabled = true;
+    inputFrameRate.disabled = true;
+    buttonCut.disabled = true;
 
     onRecording = true;
     encoder.start();
