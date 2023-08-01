@@ -1,4 +1,4 @@
-/* input[type=range]::-webkit-slider-thumb {
+input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   pointer-events: all;
   width: 24px;
@@ -42,4 +42,4 @@ input[type="range"] {
 }
 .hidden{
   display : none;
-} */
+}
