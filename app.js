@@ -16,6 +16,8 @@ const inputResize = document.querySelector('#inputResize');
 const buttonCut = document.querySelector('#button-cut');
 const cutted_container = document.querySelector("#cutted");
 
+const HIDDEN_CLASSNAME = "hidden";
+
 let files = [];
 let duration = 100;
 
@@ -24,6 +26,7 @@ let num_of_sample = 0;
 
 let onRecording = false;
 
+let sizetxt;
 let downbtn;
 let pimage;
 
@@ -39,15 +42,41 @@ let ctx;
 
 let encoder;
 
+let spinner;
+
+function createspinner(){
+    const inner_spinner = document.createElement('div');
+    inner_spinner.classList.add('spinner-border');
+    inner_spinner.setAttribute('role', 'status');
+    inner_spinner.classList.add('m-5');
+    spinner = document.createElement('div');
+    spinner.classList.add('d-flex');
+    spinner.classList.add('justify-content-center');
+    spinner.classList.add('align-items-center');
+    spinner.appendChild(inner_spinner);
+}
+
+
 function setProgressBar(){
     const pbBefore = document.querySelector('#pbBefore');
+    const pbPlayed = document.querySelector('#pbPlayed');
     const pbNow = document.querySelector('#pbNow');
     const pbAfter = document.querySelector('#pbAfter');
 
     pbBefore.style.width = (fromtime / duration) * 100 + "%";
+    pbPlayed.style.width = 0;
     pbNow.style.width = ((totime - fromtime) / duration) * 100 + "%";
     pbAfter.style.width = ((duration - totime) / duration) * 100 + "%";
 }
+
+function setoutsize(event){
+    const outputwidth = document.querySelector('#outputwidth');
+    const outputheight = document.querySelector('#outputheight');
+
+    outputwidth.value = vwidth * inputResize.value / 100;
+    outputheight.value = vheight * inputResize.value / 100;
+}
+
 
 function fpsChanged(event){
     vfps = inputFrameRate.value;
@@ -73,6 +102,9 @@ function initStatus() {
     vwidth = preview.videoWidth;
     vheight = preview.videoHeight;
     vfps = inputFrameRate.value;
+
+    inputResize.value = 100;
+    setoutsize();
     
 
     // const frameCount = Math.floor(duration * vfps);
@@ -154,6 +186,12 @@ function selectFolder(event) {
 
 
 function videoPlaying(event) {
+    const pbPlayed = document.querySelector('#pbPlayed');
+    const pbNow = document.querySelector('#pbNow');
+    
+    pbPlayed.style.width = ((preview.currentTime - fromtime) / duration) * 100 + "%";
+    pbNow.style.width = ((totime - preview.currentTime) / duration) * 100 + "%";
+
     if (preview.currentTime >= totime) {
         if(onRecording){
             onRecording = false;
@@ -171,16 +209,24 @@ function videoPlaying(event) {
             inputResize.disabled = false;
             buttonCut.disabled = false;
 
+            console.log(encoder);
+            //get encoder file size to MegaByte
+            const filesize = Math.floor(encoder.stream().getData().length / 1024 / 1024 * 100) / 100;
+            // console.log(filesize);
+            sizetxt.innerText = `파일 크기 : ${filesize}MB`;
+            spinner.remove();
+            pimage.classList.remove(HIDDEN_CLASSNAME);
+            sizetxt.classList.remove(HIDDEN_CLASSNAME);
+            downbtn.classList.remove(HIDDEN_CLASSNAME);
         }
         preview.currentTime = fromtime;
         preview.play();
     }else if(onRecording){
         preview.pause();
         if(preview.currentTime >= captime){
-            ctx.drawImage(preview, 0, 0, vwidth, vheight);
+            ctx.drawImage(preview, 0, 0, vwidth  * inputResize.value / 100, vheight * inputResize.value / 100);
             encoder.addFrame(ctx);
-            // encoder.addFrame(ctx.scale(inputResize.value/100, inputResize.value/100));
-            console.log(preview.currentTime);
+            // console.log(preview.currentTime);
             captime += frameInterval;
         }
         preview.play();
@@ -194,24 +240,36 @@ function createGIF() {
     tmp_card.id = `sample_${num_of_sample}`;
     tmp_card.classList.add('card');
     tmp_card.style.width = "18rem";
+    createspinner();
+    tmp_card.appendChild(spinner);
     pimage = document.createElement("img");
     pimage.classList.add('card-img-top');
     pimage.alt = "loading...";
+    pimage.classList.add(HIDDEN_CLASSNAME);
     tmp_card.appendChild(pimage);
     cutted_container.appendChild(tmp_card);
     const tmp_card_body = document.createElement('div');
     tmp_card_body.classList.add('card-body');
     tmp_card.appendChild(tmp_card_body);
+    sizetxt = document.createElement("p");
+    sizetxt.classList.add('card-text');
+    sizetxt.innerText = "파일 크기 : ";
+    tmp_card_body.appendChild(sizetxt);
     downbtn = document.createElement("a");
     downbtn.classList.add('btn');
     downbtn.classList.add('btn-primary');
     downbtn.innerText = "다운로드";
     tmp_card_body.appendChild(downbtn);
+    sizetxt.classList.add(HIDDEN_CLASSNAME);
+    downbtn.classList.add(HIDDEN_CLASSNAME);
 
     canvas = document.createElement("canvas");
     
-    canvas.width = vwidth;
-    canvas.height = vheight;
+    // canvas.width = vwidth;
+    // canvas.height = vheight;
+
+    canvas.width = vwidth * inputResize.value / 100;
+    canvas.height = vheight * inputResize.value / 100;
 
     ctx = canvas.getContext("2d", { willReadFrequently: true });
     
@@ -235,8 +293,10 @@ function createGIF() {
 }
 
 folderselecter.addEventListener("click", selectFolder);
-fromSlider.addEventListener("input", moveRange);
-toSlider.addEventListener("input", moveRange);
+
+fromSlider.addEventListener("change", moveRange);
+toSlider.addEventListener("change", moveRange);
+
 preview.addEventListener("loadeddata", FildLoaded);
 preview.addEventListener("timeupdate", videoPlaying);
 preview.addEventListener("ended", videoPlaying);
@@ -252,6 +312,6 @@ inputstarttime.addEventListener("change", setInputTime);
 inputendtime.addEventListener("change", setInputTime);
 
 inputFrameRate.addEventListener("change", fpsChanged);
-
+inputResize.addEventListener("change", setoutsize);
 
 buttonCut.addEventListener("click", createGIF);
