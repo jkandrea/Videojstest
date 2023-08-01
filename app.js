@@ -199,7 +199,7 @@ function videoPlaying(event) {
             const gif_url = 'data:image/gif;base64,' + encode64(encoder.stream().getData());
             pimage.src = gif_url;
             downbtn.href = gif_url;
-            downbtn.download = 'EzGIF.gif';
+            downbtn.download = 'BlogToolToolGIF.gif';
 
             fromSlider.disabled = false;
             toSlider.disabled = false;
@@ -218,6 +218,7 @@ function videoPlaying(event) {
             pimage.classList.remove(HIDDEN_CLASSNAME);
             sizetxt.classList.remove(HIDDEN_CLASSNAME);
             downbtn.classList.remove(HIDDEN_CLASSNAME);
+            
         }
         preview.currentTime = fromtime;
         preview.play();
