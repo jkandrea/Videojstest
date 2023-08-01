@@ -329,8 +329,9 @@ function radioChanged(event) {
 
 function videoClick(event) {
     if (MobileYN) {
+        event.preventDefault();
         const fileinput = document.createElement("input");
-        fileinput.type = "video/*";
+        fileinput.type = "file";
         fileinput.accept = "video/*";
         fileinput.addEventListener("change", function (event) {
             const file = event.target.files[0];
