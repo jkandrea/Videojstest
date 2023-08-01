@@ -16,7 +16,16 @@ const inputResize = document.querySelector('#inputResize');
 const buttonCut = document.querySelector('#button-cut');
 const cutted_container = document.querySelector("#cutted");
 
+const inlineRadio1 = document.querySelector('#inlineRadio1');
+const inlineRadio2 = document.querySelector('#inlineRadio2');
+
+const folderselet = document.querySelector('#col-folderselet');
+
+const btnfile = document.querySelector('#btnfile');
+
 const HIDDEN_CLASSNAME = "hidden";
+
+const MobileYN = MobileCheck();
 
 let files = [];
 let duration = 100;
@@ -43,6 +52,19 @@ let ctx;
 let encoder;
 
 let spinner;
+
+function MobileCheck() {
+    const UserAgent = navigator.userAgent;
+    if (UserAgent.indexOf('iPhone') > 0 || UserAgent.indexOf('iPod') > 0 || UserAgent.indexOf('Android') > 0) {
+        inlineRadio1.checked = true;
+        folderselet.classList.add(HIDDEN_CLASSNAME);
+    
+        const radiodiv = document.querySelector('#file-or-folder');
+        radiodiv.classList.add(HIDDEN_CLASSNAME);
+        return true;
+    }
+    return false;
+}
 
 function createspinner(){
     const inner_spinner = document.createElement('div');
@@ -236,6 +258,10 @@ function videoPlaying(event) {
 
 function createGIF() {
     // alert("변환에는 시간이 어느 정도 소요될 수 있습니다.");
+    if(preview.src == ""){
+        alert("변환할 파일을 선택해주세요.");
+        return;
+    }
 
     const tmp_card = document.createElement('div');
     tmp_card.id = `sample_${num_of_sample}`;
@@ -293,6 +319,51 @@ function createGIF() {
     preview.play();
 }
 
+function radioChanged(event) {
+    if (event.target.value == "optionfile") {
+        folderselet.classList.add(HIDDEN_CLASSNAME);
+    } else {
+        folderselet.classList.remove(HIDDEN_CLASSNAME);
+    }
+}
+
+function videoClick(event) {
+    if (MobileYN) {
+        const fileinput = document.createElement("input");
+        fileinput.type = "video/*";
+        fileinput.accept = "video/*";
+        fileinput.addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file.type.includes("video")) {
+                preview.src = URL.createObjectURL(file);
+                preview.load();
+                preview.currentTime = 0;
+                preview.play();
+            }   
+        });
+        fileinput.click();
+    } else {
+        if (preview.paused) {
+            preview.play();
+        } else {
+            preview.pause();
+        }
+    }
+}
+
+function dropFile(event) {
+    event.preventDefault();
+    const file = event.dataTransfer.files[0];
+    if (file.type.includes("video")) {
+        preview.src = URL.createObjectURL(file);
+        preview.load();
+        preview.currentTime = 0;
+        preview.play();
+    } else {
+        alert("동영상 파일을 선택해주세요.");
+    }
+}
+
 folderselecter.addEventListener("click", selectFolder);
 
 fromSlider.addEventListener("change", moveRange);
@@ -301,13 +372,13 @@ toSlider.addEventListener("change", moveRange);
 preview.addEventListener("loadeddata", FildLoaded);
 preview.addEventListener("timeupdate", videoPlaying);
 preview.addEventListener("ended", videoPlaying);
-preview.addEventListener("click", function () {
-    if (preview.paused) {
-        preview.play();
-    } else {
-        preview.pause();
-    }
+preview.addEventListener("click", videoClick);
+
+preview.addEventListener("drop", dropFile);
+preview.addEventListener("dragover", (event) => {
+    event.preventDefault();
 });
+
 
 inputstarttime.addEventListener("change", setInputTime);
 inputendtime.addEventListener("change", setInputTime);
@@ -316,3 +387,6 @@ inputFrameRate.addEventListener("change", fpsChanged);
 inputResize.addEventListener("change", setoutsize);
 
 buttonCut.addEventListener("click", createGIF);
+
+inlineRadio1.addEventListener("change", radioChanged);
+inlineRadio2.addEventListener("change", radioChanged);
