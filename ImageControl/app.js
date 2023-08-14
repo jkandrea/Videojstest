@@ -59,7 +59,11 @@ function setWatermark(){
             canvas.width = imgwidth;
             canvas.height = imgheight;
         }
-        context.fillStyle = "rgba(255, 255, 255, 1.0)";
+        if (fontcolor.value == "#ffffff") {
+            context.fillStyle = "rgba(0, 0, 0, 1.0)";
+        } else {
+            context.fillStyle = "rgba(255, 255, 255, 1.0)";
+        }
         context.fillRect(0, 0, canvas.width, canvas.height);
         context.drawImage(img, 0, 0,imgwidth,imgheight);
         // context.font = "bold 30px sans-serif";
