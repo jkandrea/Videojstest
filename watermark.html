@@ -29,15 +29,16 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="../index.html">블록툴툴</a>
+            <a class="navbar-brand" href="index.html">블록툴툴</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="gifconverter.html">GIF 변환기</a>
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">워터마크 추가</a>
+                    <a class="nav-link active" aria-current="page" href="GIFConverter/gifconverter.html">GIF 변환기</a>
+                    <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">워터마크 추가</a> -->
+                    <a class="nav-link active" href="watermark.html">워터마크 추가</a>
                     <!-- <a class="nav-link" href="#">워터마크 추가</a> -->
                     <!-- <a class="nav-link" href="#">Pricing</a> -->
                 </div>
@@ -50,9 +51,9 @@
         <div class="col m-3">
             <h2 class="hidden">이미지 표시부분</h2>
             <p class="hidden">이미지를 표시하는 부분입니다.</p>
-            <video class="w-100 sc_priview" muted>
-                <source src="" type="video/mp4" />
-            </video>
+            <div class="w-100" style="cursor:pointer;">
+                <img  id = sc_priview src="img/Blogtooltoolwm-default.png" alt="이미지를 업로드해주세요.">
+            </div>
             <form class="row g-3">
                 <h2 class="hidden">이미지 출력 설정 값 세팅</h2>
                 <p class="hidden">워터마크를 추가한 이미지 파일로 출력할 때 설정해줄 값들입니다.</p>
@@ -60,13 +61,29 @@
                     <label for="inputtext" class="form-label">워터마크 문구</label>
                     <input class="form-control" type="text" id="inputtext" value="">
                 </div>
-                <div class="col-4">
-                    <label for="inputFontSize" class="form-label">글자 크기</label>
-                    <input type="number" class="form-control" id="inputFontSize" value="15" min="1" max="30">
+                <div class="col-3">
+                    <label for="inputFontSize" class="form-label">글자 크기(px)</label>
+                    <input type="number" class="form-control" id="inputFontSize" value="30" min="1" max="100">
                 </div>
-                <div class="col-8">
-                    <label for="inputFontStyle" class="form-label">폰트 선택</label>
-                    <input type="number" class="form-control" id="inputFontStyle" value="15" min="1" max="30">
+                <div class="col-3">
+                    <label for="inputFontColor" class="form-label">글자 색상</label>
+                    <input type="color" class="form-control" id="inputFontColor" value="#FFFFFF">
+                </div>
+                <div class="col-3">
+                    <label for="inputFontOpacity" class="form-label">투명도(0~1)</label>
+                    <input type="number" class="form-control" id="inputFontOpacity" value="0.5" min="0" max="1">
+                </div>
+                <div class="col-3">
+                    <label for="inputFontAlign" class="form-label">위치</label>
+                    <select class="form-select" aria-label="Default select example" id = "inputFontAlign">
+                        <option value="1">중앙</option>
+                        <option value="2">왼쪽 상단</option>
+                        <option value="3">오른쪽 상단</option>
+                        <option value="4">왼쪽 하단</option>
+                        <option value="5">오른쪽 하단</option>
+                        <option value="6">왼쪽 하단 외곽</option>
+                        <option value="7">오른쪽 하단 외곽</option>
+                    </select>
                 </div>
                 <div class="col-4">
                     <label for="inputResize" class="form-label">배율(%)</label>
@@ -91,7 +108,6 @@
                     </button>
                 </div>
             </form>
-            <p>표기된 파일 사이즈는 계산된 수치로 실제와 차이가 있을 수 있습니다.</p>
         </div>
     </div>
     <script src="ImageControl/app.js"></script>
