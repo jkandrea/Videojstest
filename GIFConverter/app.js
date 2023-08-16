@@ -23,9 +23,6 @@ const folderselet = document.querySelector('#col-folderselet');
 
 const btnfile = document.querySelector('#btnfile');
 
-const adModal = document.querySelector('#adModal');
-const btnmodalclose = document.querySelector('#btnmodalclose');
-
 const HIDDEN_CLASSNAME = "hidden";
 
 const MobileYN = MobileCheck();
@@ -265,10 +262,7 @@ function createGIF() {
         alert("변환할 파일을 선택해주세요.");
         return;
     }
-
-    adModal.style.display = 'block';
-    adModal.classList.add('show');
-
+    
     const tmp_card = document.createElement('div');
     tmp_card.id = `sample_${num_of_sample}`;
     tmp_card.classList.add('card');
@@ -397,8 +391,3 @@ buttonCut.addEventListener("click", createGIF);
 
 inlineRadio1.addEventListener("change", radioChanged);
 inlineRadio2.addEventListener("change", radioChanged);
-
-btnmodalclose.addEventListener("click", function(){
-    adModal.style.display = 'none';
-    adModal.classList.remove('show');
-});
