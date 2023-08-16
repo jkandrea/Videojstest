@@ -132,6 +132,9 @@ function copyImage() {
 }
 
 preview.addEventListener("drop", dropFile);
+preview.addEventListener("dragover", (event) => {
+    event.preventDefault();
+});
 preview.addEventListener("click", previewClick);
 
 if (localStorage.getItem("wmtext") != null) {
