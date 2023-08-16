@@ -131,6 +131,19 @@ function copyImage() {
     });
 }
 
+function imagePaste(event) {
+    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    for (const item of items) {
+        if (item.type.includes("image")) {
+            const blob = item.getAsFile();
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                console.log(event.target.result);
+            }
+        }
+    }
+}
+
 preview.addEventListener("drop", dropFile);
 preview.addEventListener("dragover", (event) => {
     event.preventDefault();
@@ -165,3 +178,7 @@ fontalign.addEventListener("change", setWatermark);
 
 downbtn.addEventListener("click", downloadImage);
 copybtn.addEventListener("click", copyImage);
+
+
+//화면 띄워놓고 붙여넣기 단축키 누를 경우 이벤트
+document.addEventListener("paste", imagePaste);
