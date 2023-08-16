@@ -17,9 +17,24 @@ function dropFile(event) {
     if (file.type.includes("image")) {
         preview.src = URL.createObjectURL(file);
         origin_src = preview.src;
-        setWatermark()
+        setWatermark();
     } else {
         alert("이미지 파일을 선택해주세요.");
+    }
+}
+
+function imagePaste(event) {
+    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    for (const item of items) {
+        console.log(item.type);
+        if (item.type.includes("image")) {
+            const blob = item.getAsFile();
+            preview.src = URL.createObjectURL(blob);
+            origin_src = preview.src;
+            setWatermark();
+        } else {
+            alert("이미지 파일을 선택해주세요.");
+        }
     }
 }
 
@@ -129,19 +144,6 @@ function copyImage() {
         const item = new ClipboardItem({ "image/png": blob });
         navigator.clipboard.write([item]);
     });
-}
-
-function imagePaste(event) {
-    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
-    for (const item of items) {
-        if (item.type.includes("image")) {
-            const blob = item.getAsFile();
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                console.log(event.target.result);
-            }
-        }
-    }
 }
 
 preview.addEventListener("drop", dropFile);
