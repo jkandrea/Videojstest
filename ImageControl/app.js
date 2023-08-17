@@ -1,5 +1,3 @@
-const { ClipboardItem } = window;
-
 const preview = document.querySelector('#sc_priview');
 const wmtext = document.querySelector('#inputtext');
 const wmtextsize = document.querySelector('#inputFontSize');
@@ -143,6 +141,7 @@ function downloadImage() {
 }
 
 function copyImage() {
+    const { ClipboardItem } = window;
     const imgsrc = preview.src;
     fetch(imgsrc).then(res => res.blob()).then(blob => {
         const item = new ClipboardItem({ "image/png": blob });
