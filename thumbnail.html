@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BlogToolTool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="ImageControl/style.css">
+    <link rel="icon" href="img/blogtooltoolico.png">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.js"></script> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta property="title" content="블록툴툴 썸네일 생성기" />
+    <meta property="type" content="website" />
+    <meta property="url" content="http://blogtooltool.com" />
+    <meta property="image" content="http://blogtooltool.com/img/blogtooltoolico.png" />
+    <meta property="og:title" content="블록툴툴 썸네일 생성기" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://blogtooltool.com" />
+    <meta property="og:image" content="http://blogtooltool.com/img/blogtooltoolico.png" />
+    <!-- <meta property="og:url" content="https://blocktooltool.com/" /> -->
+    <!-- <meta property="og:image" content="https://blocktooltool.com/img/ogimage.png" /> -->
+    <meta property="description" content="회원가입 없이 무료로 이미지를 썸네일로 바꿔주는 사이트입니다." />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7186900870263230"
+        crossorigin="anonymous"></script>
+    <meta name="naver-site-verification" content="ecb32e01232dc6779e734c71412927669d5cfab2" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">블록툴툴</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="GIFConverter/gifconverter.html">GIF 변환기</a>
+                    <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">워터마크 추가</a> -->
+                    <a class="nav-link active" href="watermark.html">워터마크 추가</a>
+                    <!-- <a class="nav-link" href="#">워터마크 추가</a> -->
+                    <!-- <a class="nav-link" href="#">Pricing</a> -->
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="row">
+        <h1>블록툴툴 썸네일 생성기</h1>
+        <p class="hidden">회원가입 없이 무료로 이미지를 썸네일로 바꿔주는 사이트입니다.</p>
+        <div class="col m-3">
+            <h2 class="hidden">이미지 표시부분</h2>
+            <p class="hidden">이미지를 표시하는 부분입니다.</p>
+            <div class="row g-3">
+                <div class = "col-6">
+                    <div class="w-100" style="cursor:pointer;">
+                        <img  id = sc_priview src="img/Blogtooltoolwm-default.png" alt="이미지를 업로드해주세요.">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-qyiADxlZ7Qh11nd1" data-ad-width="300"
+                        data-ad-height="250"></ins>
+                    <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+                </div>
+            </div>
+            <form class="row g-3">
+                <h2 class="hidden">이미지 출력 설정 값 세팅</h2>
+                <p class="hidden">워터마크를 추가한 이미지 파일로 출력할 때 설정해줄 값들입니다.</p>
+                <div class="col-md-12">
+                    <label for="inputtext" class="form-label">워터마크 문구</label>
+                    <input class="form-control" type="text" id="inputtext" value="">
+                </div>
+                <div class="col-3">
+                    <label for="inputFontSize" class="form-label">글자 크기(px)</label>
+                    <input type="number" class="form-control" id="inputFontSize" value="30" min="1" max="100">
+                </div>
+                <div class="col-3">
+                    <label for="inputFontColor" class="form-label">글자 색상</label>
+                    <input type="color" class="form-control" id="inputFontColor" value="#FFFFFF">
+                </div>
+                <div class="col-3">
+                    <label for="inputFontOpacity" class="form-label">투명도(0~1)</label>
+                    <input type="number" class="form-control" id="inputFontOpacity" value="0.5" min="0" max="1">
+                </div>
+                <div class="col-3">
+                    <label for="inputFontAlign" class="form-label">위치</label>
+                    <select class="form-select" aria-label="Default select example" id = "inputFontAlign">
+                        <option value="1">중앙</option>
+                        <option value="2">왼쪽 상단</option>
+                        <option value="3">오른쪽 상단</option>
+                        <option value="4">왼쪽 하단</option>
+                        <option value="5">오른쪽 하단</option>
+                        <option value="6">왼쪽 하단 외곽</option>
+                        <option value="7">오른쪽 하단 외곽</option>
+                    </select>
+                </div>
+                <div class="col-4">
+                    <label for="inputResize" class="form-label">배율(%)</label>
+                    <input type="number" class="form-control" id="inputResize" value="100" min="1" max="100">
+                </div>
+                <div class="col-4">
+                    <label for="outputwidth" class="form-label">가로</label>
+                    <input type="number" class="form-control" id="outputwidth" value="100" disabled>
+                </div>
+                <div class="col-4">
+                    <label for="outputheight" class="form-label">세로</label>
+                    <input type="number" class="form-control" id="outputheight" value="100" disabled>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-outline-secondary col-12" type="button" id="button-download">
+                        다운로드
+                    </button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-outline-secondary col-12" type="button" id="button-copy">
+                        클립보드 복사
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="ImageControl/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
