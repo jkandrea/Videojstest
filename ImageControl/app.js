@@ -139,6 +139,7 @@ function downloadImage() {
 }
 
 function copyImage() {
+    const { ClipboardItem } = window;
     const imgsrc = preview.src;
     fetch(imgsrc).then(res => res.blob()).then(blob => {
         const item = new ClipboardItem({ "image/png": blob });
@@ -184,3 +185,4 @@ copybtn.addEventListener("click", copyImage);
 
 //화면 띄워놓고 붙여넣기 단축키 누를 경우 이벤트
 document.addEventListener("paste", imagePaste);
+document.addEventListener("copy", copyImage);
