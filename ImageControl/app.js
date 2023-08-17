@@ -1,3 +1,5 @@
+const { ClipboardItem } = window;
+
 const preview = document.querySelector('#sc_priview');
 const wmtext = document.querySelector('#inputtext');
 const wmtextsize = document.querySelector('#inputFontSize');
@@ -32,8 +34,10 @@ function imagePaste(event) {
             preview.src = URL.createObjectURL(blob);
             origin_src = preview.src;
             setWatermark();
+            return;
         } else {
             alert("이미지 파일을 선택해주세요.");
+            return;
         }
     }
 }
@@ -139,7 +143,6 @@ function downloadImage() {
 }
 
 function copyImage() {
-    const { ClipboardItem } = window;
     const imgsrc = preview.src;
     fetch(imgsrc).then(res => res.blob()).then(blob => {
         const item = new ClipboardItem({ "image/png": blob });
