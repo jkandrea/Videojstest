@@ -11,7 +11,7 @@ function movetowatermark() {
 }
 
 function movetoblogthumbnail() {
-    window.location.href = 'blogthumbnail.html';
+    window.location.href = 'thumbnail.html';
 }
 
 GIFConverterCard.addEventListener('click', movetogifconverter);
