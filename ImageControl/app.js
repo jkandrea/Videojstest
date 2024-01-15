@@ -193,7 +193,7 @@ function setThumbnail(){
         }
         // context.font = "bold 30px sans-serif";
         const lineoutline = "rgba(" + parseInt(outlinecolor.value.substr(1,2),16) + ", " + parseInt(outlinecolor.value.substr(3,2),16) + ", "+ parseInt(outlinecolor.value.substr(5,2),16) + ", " + fontopacity.value + ")";
-        context.font = "extrabold " + textsize + "px sans-serif";
+        context.font = "bold " + textsize + "px sans-serif";
         context.fillStyle = "rgba(" + parseInt(fontcolor.value.substr(1,2),16) + ", " + parseInt(fontcolor.value.substr(3,2),16) + ", "+ parseInt(fontcolor.value.substr(5,2),16) + ", " + fontopacity.value + ")";
         context.strokeStyle = lineoutline; // Set the color of the text outline
         context.lineWidth = parseInt(outlineThick.value, 10); // Set the width of the text outline
