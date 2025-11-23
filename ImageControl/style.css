@@ -1,0 +1,17 @@
+body {
+    background-color: honeydew;
+}
+
+.hidden {
+    display: none;
+}
+
+.box {
+    color: white;
+    background-color: green;
+    width: 200px;
+    height: 30px;
+    padding: 20px;
+    border: 5px dashed black;
+    margin: 15px;
+  }
